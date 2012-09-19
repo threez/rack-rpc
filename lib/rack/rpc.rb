@@ -9,5 +9,6 @@ module Rack
     autoload :Service,    'rack/rpc/service'
     autoload :VERSION,    'rack/rpc/version'
     autoload :Error,      'rack/rpc/error'
+    autoload :Logger,     'rack/rpc/logger'
   end
 end

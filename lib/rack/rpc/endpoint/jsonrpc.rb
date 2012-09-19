@@ -95,6 +95,7 @@ class Rack::RPC::Endpoint
                                               :data => exception.data)
 
         rescue => exception
+					Rack::RPC::Logger.log.error "INTERNAL ERROR #{exception}; backtrace: \n#{exception.backtrace.join("\n")}"
           response.error = JSONRPC::InternalError.new(:message => exception.to_s)
         end
 
