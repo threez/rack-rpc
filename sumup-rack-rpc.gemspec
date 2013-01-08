@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = 'sumup-rack-rpc'
-  gem.homepage           = 'https://github.com/sumup-rpc'
+  gem.homepage           = 'https://github.com/sumup/rack-rpc'
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = 'JSON-RPC/XML-RPC server for Rack applications.'
   gem.description        = 'Rack middleware for serving up RPC endpoints.'

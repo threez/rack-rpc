@@ -23,10 +23,11 @@ module Rack::RPC
         mappings.each do |rpc_method_name, server_method|
           self.send(:alias_method, :"#{server_method}_without_callbacks", server_method.to_sym)
           self.send(:define_method, server_method) do |*args|
-            self.class.hooks[:before].each{|command| command.call(self) if command.callable?(server_method)}
+            params = Hash[args]
+            self.class.hooks[:before].each{|command| command.call(self, server_method.to_sym, params) if command.callable?(server_method)}
             method = :"#{server_method}_without_callbacks"
             out = args.any? ? self.send(method, *args) : self.send(method)
-            self.class.hooks[:after].each{|command| command.call(self) if command.callable?(server_method)}
+            self.class.hooks[:after].each{|command| command.call(self, server_method.to_sym, params, out) if command.callable?(server_method)}
             out
           end
         end
@@ -106,8 +107,8 @@ module Rack::RPC
       super(options)
     end
 
-    def call(server)
-      server.__send__(@method)
+    def call(server, method_name, params, out = nil)
+      server.__send__(@method, method_name, params, out)
     end
   end # MethodCommand
 end # Rack::RPC
